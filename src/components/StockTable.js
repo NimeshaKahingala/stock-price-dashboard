@@ -1,6 +1,6 @@
 import React from 'react';
 
-const StockTable = ({ stocks, error }) => {
+const StockTable = ({ stocks, error, onRowClick, selectedSymbol }) => {
   if (error) {
     return (
       <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
@@ -35,7 +35,8 @@ const StockTable = ({ stocks, error }) => {
           {stocks.map((stock) => (
             <tr 
               key={stock.symbol} 
-              className={`hover:bg-gray-100 cursor-pointer `}
+              className={`hover:bg-gray-100 cursor-pointer ${selectedSymbol === stock.symbol ? 'bg-blue-50' : ''}`}
+              onClick={() => onRowClick(stock.symbol, stock)}
             >
               <td className="py-2 px-4 font-semibold">{stock.symbol}</td>
               <td className="py-2 px-4">${stock.c.toFixed(2)}</td>
@@ -51,6 +52,9 @@ const StockTable = ({ stocks, error }) => {
           ))}
         </tbody>
       </table>
+      <p className="text-center text-gray-500 mt-4">
+        Click on any row to view the stock price history chart
+      </p>
     </div>
   );
 };
